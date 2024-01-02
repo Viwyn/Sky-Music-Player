@@ -4,8 +4,8 @@ Automatically play music in the game Sky: Children of the Light (*referred to as
 
 ## About
 
-This python script takes the JSON file or skysheet file found in the [Sky Music Nightly](https://specy.github.io/skyMusic/) website and playes the song in game.
-The script will give you a 3 second window after you have selected a song to tab back into the game before it tabs back for you, sometimes this bugs out so I do recommend doing it manually, it will pause the song if you tab out of Sky so it does not take over your keyboard.
+This python script takes the JSON file or skysheet file found in the [Sky Music Nightly](https://specy.github.io/skyMusic/) website and playes the song in game. After you downloaded the skysheet file or JSON file, put it into the songs folder and it should automatically detect it next time the script is ran again.
+The script will give you a 3 second window after you have selected a song to tab back into the game before it tabs back for you, sometimes this bugs out so I do recommend doing it manually, it will pause the song if you tab out of Sky so it does not take over your keyboard. The script will automatically end after a song has finished playing. You can press Ctrl + C to cancel it manually
 
 [Here is the wiki guide to Sky's music](https://sky-children-of-the-light.fandom.com/wiki/Sky_Music_Guide)
 
