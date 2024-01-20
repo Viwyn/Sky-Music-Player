@@ -1,9 +1,9 @@
 import pygetwindow
-from pynput.keyboard import Controller
+from pynput.keyboard import Controller, Key
 import time
 import json
 import os
-import random
+import threading
 
 windows = pygetwindow.getWindowsWithTitle("Sky")
 
@@ -12,6 +12,10 @@ sky = None
 for window in windows:
     if window.title == "Sky":
         sky = window
+
+if sky == None:
+    print("Sky was not detected, please open Sky before running this script.")
+    quit()
 
 def focusWindow():
     try:
@@ -41,10 +45,23 @@ key_maps = {
     '1Key14': '/'
 }
 
-# Play Tunes
+class KeyPressThread(threading.Thread):
+    def __init__(self, note_time, note_key):
+        super().__init__()
+        self.note_time = note_time
+        self.note_key = note_key
+
+    def run(self):
+        if self.note_key in key_maps:
+            print(f'pressing "{key_maps[self.note_key]}"')
+            keyboard.press(key_maps[self.note_key])
+            time.sleep(0.02)  # short delay to ensure note is pressed
+            keyboard.release(key_maps[self.note_key])  # release key
+        else:
+            print("Skipped: Key not found in mapping")
+
 def play_music(song_data):
     song_notes = song_data[0]['songNotes']
-    bpm = song_data[0]['bpm']
 
     # Start playing the music
     start_time = time.perf_counter()
@@ -55,13 +72,9 @@ def play_music(song_data):
             note_time = note['time']
             note_key = note['key']
 
-            if note_key in key_maps:
-                keyboard.press(key_maps[note_key])
-                time.sleep(0.02) # short delay to ensure note is pressed
-                keyboard.release(key_maps[note_key]) #release key
-            else:
-                print("Skipped: Key not found in mapping")
-                continue
+            # Create a separate thread for pressing keys
+            key_thread = KeyPressThread(note_time, note_key)
+            key_thread.start()
 
             # Calculate the elapsed time since the start of the song
             elapsed_time = time.perf_counter() - start_time - pause_time
@@ -74,12 +87,11 @@ def play_music(song_data):
                 # Adjust wait time to maintain the desired tempo
                 remaining_time = max(0, note_time / 1000 + wait_time - elapsed_time)
 
-                print(f'pressing "{key_maps[note_key]}"')
-                # hold down key for remaining time
+                # sleep until next key 
                 time.sleep(remaining_time)
 
         else:
-            print("Sky is not focused, pausing...")
+            print("Sky is not focused, pausing... (Press Ctrl + C to exit the script)")
             paused_time_start = time.perf_counter()
             while (sky.isActive == False):
                 time.sleep(1)
@@ -107,7 +119,6 @@ if __name__ == '__main__':
 
         except FileNotFoundError:
             print("Song not found.")
-
 
         for i in range(3, 0, -1):
             print(f"Playing song in {i}")
