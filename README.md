@@ -40,7 +40,7 @@ The script will give you a 3 second window after you have selected a song to tab
     <img src="https://cdn.discordapp.com/attachments/1198460042513481738/1198461908857127013/image.png?ex=65befda1&is=65ac88a1&hm=4ed565065b998fca5cfc3d5a57fdc4c49ca2b2b63de9943ad8e0cf031752c2da&" width=500>
 </p>
 
-3. Head over to your library and find the song that you just downloaded and download it to the songs folder.
+3. Head over to your library and find the song that you just downloaded and download it to the <mark>songs</mark> folder. (the program by default will read from the songs folder, read comment on line 131 in index.py)
 
 <p align="center">
     <img src="https://cdn.discordapp.com/attachments/1198460042513481738/1198461805706608710/image.png?ex=65befd88&is=65ac8888&hm=5bfcc44d770d9caa47dacb5122fe2f6443061bea47af466877aee17e435d8d2b&" width=500>

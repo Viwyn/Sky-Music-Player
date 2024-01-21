@@ -42,7 +42,22 @@ key_maps = {
     '1Key11': 'm',
     '1Key12': ',',
     '1Key13': '.',
-    '1Key14': '/'
+    '1Key14': '/',
+    '2Key0': 'y',
+    '2Key1': 'u',
+    '2Key2': 'i',
+    '2Key3': 'o',
+    '2Key4': 'p',
+    '2Key5': 'h',
+    '2Key6': 'j',
+    '2Key7': 'k',
+    '2Key8': 'l',
+    '2Key9': ';',
+    '2Key10': 'n',
+    '2Key11': 'm',
+    '2Key12': ',',
+    '2Key13': '.',
+    '2Key14': '/'
 }
 
 class KeyPressThread(threading.Thread):
@@ -53,7 +68,8 @@ class KeyPressThread(threading.Thread):
 
     def run(self):
         if self.note_key in key_maps:
-            print(f'pressing "{key_maps[self.note_key]}"')
+            # uncomment the line below if you want spammed msgs during key presses
+            # print(f'pressing "{key_maps[self.note_key]}"')
             keyboard.press(key_maps[self.note_key])
             time.sleep(0.02)  # short delay to ensure note is pressed
             keyboard.release(key_maps[self.note_key])  # release key
@@ -112,9 +128,11 @@ if __name__ == '__main__':
 
     selection = int(input("Please select a song: "))
 
+    folder_name = "songs" #change this folder name if you are using a different folder
+
     if selection-1 in range(len(song_list)):
         try:
-            with open(f'songs/{song_list[selection-1]}', 'r', encoding="utf-8") as file:
+            with open(f'{folder_name}/{song_list[selection-1]}', 'r', encoding="utf-8") as file:
                 song_data = json.load(file)
 
         except FileNotFoundError:
