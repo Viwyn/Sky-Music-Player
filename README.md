@@ -29,4 +29,23 @@ The script will give you a 3 second window after you have selected a song to tab
 
 4. Select a song with numbers
 
+
+## Downloading Songs
+
+1. Head over to the [Sky Nightly](https://specy.github.io/skyMusic/) website and go to the song library page
+
+2. Search for a song of your choice and download it
+
+<p align="center">
+    <img src="https://cdn.discordapp.com/attachments/1198460042513481738/1198461908857127013/image.png?ex=65befda1&is=65ac88a1&hm=4ed565065b998fca5cfc3d5a57fdc4c49ca2b2b63de9943ad8e0cf031752c2da&" width=500>
+</p>
+
+3. Head over to your library and find the song that you just downloaded and download it to the songs folder.
+
+<p align="center">
+    <img src="https://cdn.discordapp.com/attachments/1198460042513481738/1198461805706608710/image.png?ex=65befd88&is=65ac8888&hm=5bfcc44d770d9caa47dacb5122fe2f6443061bea47af466877aee17e435d8d2b&" width=500>
+</p>
+
+4. Launch or relaunch the script and the song will be loaded into the list!
+
 *this is a passion project, it might not work flawlessly im sorry, i just love music in sky*
