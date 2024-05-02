@@ -1,5 +1,7 @@
 import pygetwindow
 from pynput.keyboard import Controller, Key
+from multiprocessing import Process
+import math
 import time
 import json
 import os
@@ -76,12 +78,57 @@ class KeyPressThread(threading.Thread):
         else:
             print("Skipped: Key not found in mapping")
 
+
+def progress_bar(current, total, song_name, replace_line, bar_length=40):
+    fraction = current / total
+    current = math.floor(current)
+    total = math.ceil(total)
+
+    arrow = int(fraction * bar_length - 1) * '-' + '>'
+    padding = int(bar_length - len(arrow)) * ' '
+
+    ending = '\n' if current >= total else '\r'
+
+    if (replace_line == 0):
+        print(f'Now Playing: {song_name} [{arrow}{padding}] {math.floor(current/60)}:{math.floor(current%60):02}/{math.floor(total/60)}:{math.floor(total%60):02}')
+    elif (replace_line == 1):
+        print(f'Now Playing: {song_name} [{arrow}{padding}] {math.floor(current/60)}:{math.floor(current%60):02}/{math.floor(total/60)}:{math.floor(total%60):02}', end=ending)
+    
+
+def progress_loop(data):
+    start_time = time.perf_counter()
+    pause_time = 0
+    elapsed_time = 0
+    total = data['songNotes'][-1]["time"]/1000
+    name = data["name"]
+    paused = 1
+    while (elapsed_time < total):
+        if (sky.isActive):
+            elapsed_time = time.perf_counter() - start_time - pause_time
+            progress_bar(elapsed_time, total, name, paused)
+            paused = 1
+            time.sleep(1)
+        else:
+            pause_time_start = time.perf_counter()
+            while (sky.isActive == False):
+                time.sleep(1)
+            pause_time_end = time.perf_counter()
+            pause_time += pause_time_end - pause_time_start
+            paused = 2
+
+p_loop = Process(target=progress_loop)
+
 def play_music(song_data):
+    #song_data_global = Value(song_data)
     song_notes = song_data[0]['songNotes']
 
     # Start playing the music
     start_time = time.perf_counter()
     pause_time = 0
+
+    # Start progress bar
+    p_loop = Process(target=progress_loop, args=(song_data))
+    p_loop.start()
 
     for i, note in enumerate(song_notes):
         if (sky.isActive):
@@ -107,18 +154,23 @@ def play_music(song_data):
                 time.sleep(remaining_time)
 
         else:
-            print("Sky is not focused, pausing... (Press Ctrl + C to exit the script)")
+            print("\033[KSky is not focused, pausing... (Press Ctrl + C to exit the script)")
             paused_time_start = time.perf_counter()
             while (sky.isActive == False):
                 time.sleep(1)
             paused_time_end = time.perf_counter()
             pause_time += paused_time_end - paused_time_start
             print("Resuming song...")
+            progress_bar(elapsed_time + remaining_time, song_data[0]['songNotes'][-1]["time"]/1000, song_data[0]["name"], 1)
 
+    final_time = math.ceil(song_data[0]['songNotes'][-1]["time"]/1000)
+    progress_bar(final_time, final_time, song_data[0]["name"], 1)
+    p_loop.terminate()
     print(f"Finished playing {song_data[0]['name']}")
 
+#while (True):
 if __name__ == '__main__':
-    print("Please select a song with the corosponding number.")
+    print("Please select a song with the corresponding number.")
     
     song_list = os.listdir("./songs/")
 
@@ -142,7 +194,7 @@ if __name__ == '__main__':
             print(f"Playing song in {i}")
             time.sleep(1)
 
-        print(f"Now playing: '{song_data[0]['name']}'")
+        #print(f"Now playing: '{song_data[0]['name']}'")
 
         focusWindow()
         play_music(song_data)
