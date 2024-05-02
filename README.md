@@ -15,8 +15,10 @@ The script will give you a 3 second window after you have selected a song to tab
 1. Download Python from their official [website](https://www.python.org)
 
 2. Clone this repo
+    (Click on the green button near the top that says "**<> Code**", then click "**Download ZIP**", then extract the zip anywhere you want)
 
 3. Install required dependencies `pip install -r requirements.txt`
+    (Right click inside the music player folder, then click "Open in Terminal". Then, copy the above code and paste it into the terminal.)
 
 
 ## Usage
@@ -24,10 +26,11 @@ The script will give you a 3 second window after you have selected a song to tab
 1. Run Sky
 
 2. Run this script
+    (Right click inside the music player folder, then click "Open in Terminal". Then, paste in `py index.py` to run the script. You will need to do this each time you want to play a song.)
 
 3. Pull out an instrument in Sky
 
-4. Select a song with numbers
+4. Select a song by typing in the song number and pressing Enter
 
 
 ## Downloading Songs
