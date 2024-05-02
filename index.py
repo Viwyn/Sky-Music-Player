@@ -119,7 +119,6 @@ def progress_loop(data):
 p_loop = Process(target=progress_loop)
 
 def play_music(song_data):
-    #song_data_global = Value(song_data)
     song_notes = song_data[0]['songNotes']
 
     # Start playing the music
