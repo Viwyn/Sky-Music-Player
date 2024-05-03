@@ -81,8 +81,8 @@ class KeyPressThread(threading.Thread):
 
 def progress_bar(current, total, song_name, replace_line, bar_length=40):
     fraction = current / total
-    current = math.floor(current)
-    total = math.ceil(total)
+    current = round(current)
+    total = round(total)
 
     arrow = int(fraction * bar_length - 1) * '-' + '>'
     padding = int(bar_length - len(arrow)) * ' '
@@ -162,7 +162,7 @@ def play_music(song_data):
             print("Resuming song...")
             progress_bar(elapsed_time + remaining_time, song_data[0]['songNotes'][-1]["time"]/1000, song_data[0]["name"], 1)
 
-    final_time = math.ceil(song_data[0]['songNotes'][-1]["time"]/1000)
+    final_time = round(song_data[0]['songNotes'][-1]["time"]/1000)
     progress_bar(final_time, final_time, song_data[0]["name"], 1)
     p_loop.terminate()
     print(f"Finished playing {song_data[0]['name']}")
